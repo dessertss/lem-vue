@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue基本使用</title>
+    
+</head>
+<body>
+    <div id="app">
+        <h2>{{ msg }}</h2>
+        <h3>{{ 1+1 }}</h3>
+        <h2>{{ isTrue }}</h2>
+        <h2>{{ str.split('').reverse().join('') }}</h2>
+    </div>
+    <script src="./node_modules/vue/dist/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data:{
+                msg: 'hello world',
+                isTrue: 1===1,
+                str: 'hi scytale'
+
+            },
+            //template:'<div>{{msg}}</div>' //优先级 生命周期
+        });
+        console.log(vm);
+        console.log(vm.$data);
+    </script>
+</body>
+</html>

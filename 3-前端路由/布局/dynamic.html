@@ -1,0 +1,251 @@
+<template>
+    <div>
+        <div class="dynamic">
+            <el-row>
+                <el-col :span="12">
+                    <div class="title">
+                        <h2 class="title_left">协会资讯</h2>
+                        <div class="title_right"><span class="more">共有 {{tableData.length}}条</span></div>
+                    </div>
+                    <el-table :data="tableData.slice((currpage - 1) * pagesize, currpage * pagesize)"
+                        style="width: 100%" :row-class-name="tableRowClassName">
+                        <el-table-column prop="date" label="日期" width="180"></el-table-column>
+                        <el-table-column prop="name" label="姓名" width="180"></el-table-column>
+                        <el-table-column prop="address" label="地址"></el-table-column>
+                    </el-table>
+                    <el-pagination background layout="prev, pager, next, jumper" @size-change='handleSizeChange'
+                        @current-change='handleCurrentChange' :current-page='currpage' :page-size='pagesize'
+                        :total="tableData.length"></el-pagination>
+                </el-col>
+                <el-col :span="12" class="picture">
+                    <el-row class="connect">
+                        <el-col :span="24">
+                            <h2 class="title_left">最新资讯</h2>
+                            <div class="progress-bar">
+                                <div class="progress"></div>
+                            </div>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <div class="lists">
+                            <ul>
+                                <li v-for="(item, aid) in list" :key="aid">
+                                    <el-row>
+                                        <el-col :span="16">
+                                            <h6>{{item.title}}</h6>
+                                        </el-col>
+                                    </el-row>
+                                </li>
+                            </ul>
+                        </div>
+                        <el-col class="future"><img src="../../assets/img/ft.png" alt="future"></el-col>
+                    </el-row>
+                </el-col>
+            </el-row>
+        </div>
+    </div>
+</template>
+<script>
+    import axios from 'axios'
+    import Mock from 'mockjs'
+
+    Mock.mock('/api/testmock', 'get', () => {
+            return {
+
+                status: 200,
+                arr: Mock.mock({
+                        'list|20-50': [{
+                                name: '@cname()',
+                                address: '@city(true)',
+                                date: '@date()'
+                            }
+
+                        ]
+                    }
+
+                )
+            }
+        }
+
+    );
+    var message = [{
+            title: '2020年（第五届）电机绝缘技术-主绝缘技术专题研讨会征文',
+            content: '',
+            times: '2020-11-25'
+        }
+
+        ,
+        {
+            title: '全国电气安全标委会2019年年会暨标准研讨会顺利召开',
+            content: '',
+            times: '2020-11-25',
+        }
+
+        ,
+        {
+            title: '新科技亮相进博会',
+            content: '',
+            times: '2020-11-25',
+        }
+
+        ,
+        {
+            title: 'IEC/TC105燃料电池技术会议顺利召开',
+            content: '',
+            times: '2020-11-25',
+        }
+
+        ,
+        {
+            title: '人工智能将进一步拉大强国与弱国的差距',
+            content: '',
+            times: '2020-11-25',
+        }
+
+        ,
+        {
+            title: '2019年中国电器最具影响力活动的文件通知',
+            content: '',
+            times: '2020-11-25',
+        }
+
+        ,
+        {
+            title: '第三届海上风电环境适应性研讨会正式通知',
+            content: '',
+            times: '2020-11-25',
+        }
+
+    ];
+
+    export default {
+        methods: {
+            tableRowClassName({
+                    rowIndex
+                }
+
+            ) {
+                if (rowIndex === 1) {
+                    return 'warning-row';
+                } else if (rowIndex === 3) {
+                    return 'success-row';
+                }
+
+                return '';
+            }
+
+            ,
+            handleSizeChange(val) {
+                this.pagesize = val
+            }
+
+            ,
+            handleCurrentChange(val) {
+                this.currpage = val
+            }
+        },
+        data() {
+            return {
+                tableData: [],
+                curentPage1: 1, //默认最开始是第几页
+                pagesize: 20, //每页数据条数
+                currpage: 1, //默认开始页面
+                list: message
+            }
+        }
+
+        ,
+        created() {
+            axios.get('/api/testmock').then(res => {
+                    console.log(res);
+                    this.tableData = res.data.arr.list;
+                    console.log(this.tableData);
+                }
+
+            )
+        }
+
+        ,
+    }
+</script>
+<style scoped>
+    .el-table .warning-row {
+        background: oldlace;
+    }
+
+    .el-table .success-row {
+        background: #f0f9eb;
+    }
+
+    .title {
+        font-size: 14px;
+        line-height: 70px;
+        color: #786F66;
+    }
+
+    .title_left {
+
+        float: left;
+        text-align: left;
+        width: 60%;
+        height: 50px;
+    }
+
+    .title_right {
+        height: 50px;
+    }
+
+    .more {
+        color: #8E8E8E;
+        font-size: 10px;
+        margin-left: -670px;
+    }
+
+    .progress-bar {
+        /* 进度条的槽 */
+        /* 设置进度条的高度 */
+        height: 3px;
+        /*进度条外层div的背景色，进度未达到的地方的颜色 */
+        background-color: #E8E8E8;
+        border-radius: 3px;
+        margin-top: 50px;
+    }
+
+    .progress {
+        /* 进度部分 */
+        /* 利用继承父元素宽度的百分比控制进度 */
+        width: 15%;
+        height: 100%;
+        /* 内层背景色即进度达到的颜色 */
+        background-color: #03a9f5;
+        border-radius: 3px;
+    }
+
+    h2 {
+        line-height: 60px;
+    }
+
+    .future img {
+        width: 90%;
+        margin-left: 20px;
+        margin-top: 200px;
+    }
+
+    /* .lists li {
+        box-sizing: border-box;
+        list-style-image: url(../../assets/img/dot_square.png);
+        margin-left: 17px;
+        padding-left: 10px;
+        margin-bottom: -65px;
+    } */
+
+    /* .lists li:nth-child(1) {
+        margin-top: -55px;
+    } */
+
+    .lists h6 {
+        float: left;
+        margin-top: -12px;
+        font-family: '微软雅黑';
+    }
+</style>

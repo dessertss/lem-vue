@@ -1,0 +1,7 @@
+[
+    {id:1, name: '邓紫棋', SongSrc:'./static/G.E.M.邓紫棋 - 两个自己.mp3'},
+    {id:2, name: '五月天', SongSrc:'./static/拥抱.mp3'},
+    {id:3, name: '队长', SongSrc:'./static/队长 - 予你.mp3'},
+    {id:4, name: '陆虎', SongSrc:'/static/陆虎-雪落下的声音.mp3'},
+    {id:5, name: '还潮', SongSrc:'/static/还潮 - 老式双卡录音机.mp3'},
+]

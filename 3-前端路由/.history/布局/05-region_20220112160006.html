@@ -1,0 +1,60 @@
+<template>
+    <div class="dynamic">
+        <el-row>
+            <el-col :span="12">
+                <div class="title">
+                    <h2 class="title_left">协会资讯</h2>
+                    <div class="title_right">
+                        <span class="more">共有data.total条</span>
+                    </div>
+                </div>
+            </el-col>
+            <el-col :span="12" class="picture">
+                <el-row class="connect">
+                    <el-col :span="8"><img src="../../assets/img/联系我们.png" alt="future"></el-col>
+                    <el-col :span="8"><img src="../../assets/img/公众号.png" alt="future"></el-col>
+                    <el-col :span="8"><img src="../../assets/img/service.png" alt="future"></el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="24" class="future"><img src="../../assets/img/ft.png" alt="future"></el-col>
+                </el-row>
+            </el-col>
+        </el-row>
+    </div>
+</template>
+
+<script>
+    export default {
+        data() {
+            return {
+                urlnews: ''
+            }
+        }
+    }
+</script>
+
+<style scoped>
+    .title {
+        font-size: 14px;
+        line-height: 70px;
+        color: #786F66;
+    }
+
+    .title_left {
+
+        float: left;
+        text-align: left;
+        width: 60%;
+        height: 50px;
+    }
+
+    .title_right {
+        height: 50px;
+    }
+    
+    .more {
+        color: #8E8E8E;
+        font-size: 10px;
+        margin-left: -670px;
+    }
+</style>

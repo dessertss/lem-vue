@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>局部组件的创建</title>
+</head>
+<body>
+    <div id="entry"></div>
+    <script src="./node_modules/vue/dist/vue.min.js"></script>
+    <script>
+        //声子 挂子 用子
+        //局部组件的声明
+
+        //首字母大写引用
+        var AppName = {
+            data(){
+
+            },
+            methods:{
+                clickHandler(){
+                    console.log(this);
+                }
+            },
+            template:`
+            <div>
+                <button @click = 'clickHandler'>我是入口组件</button>
+            </div>
+            `
+        }
+        console.log(AppName);
+        var vm = new Vue({
+            el: '#entry',
+            data(){
+                return {
+
+                }
+            },
+            //挂载子组件
+            components:{
+                AppName
+            },
+            //父组件直接可以使用
+            template:`
+                <app-name><app-name/>
+            `
+        })
+        console.log(vm);
+    </script>
+</body>
+</html>

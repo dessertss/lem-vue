@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>局部组件的使用</title>
+    <style>
+        .default {
+            display: inline-block;
+            line-height: 1;
+            white-space: nowrap;
+            cursor: pointer;
+            background: rgb(255 255 255);
+            border: 1px solid rgb(220 223 230);
+            color: rgb(96 98 102);
+            -webkit-appearance: none;
+            text-align: center;
+            box-sizing: border-box;
+            outline: none;
+            margin: 0;
+            transition: .1s;
+            font-weight: 500;
+            padding: 12px 20px;
+            font-size: 14px;
+            border-radius: 4px;
+        }
+
+        .primary {
+            background-color: rgb(64 158 255);
+            border-color: rgb(64 158 255);
+        }
+
+        .success {
+            background-color: rgb(64, 255, 150);
+            border-color: rgb(64, 255, 150);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+
+    </div>
+    <script src="../node_modules/vue/dist/vue.min.js"></script>
+    <script>
+        // 全局组件的创建
+        // 第一个参数是组件的名字，第二个参数是options
+        Vue.component('VBtn', {
+            data(){
+                return {
+                    myType:''
+                }
+            },
+            created(){
+                this.myType = this.type;
+                console.log(this.myType);
+            },
+            template: `
+                <!--内置组件slot作为重载分发内容的出口-->
+                
+                <button class="default" :class="type"><slot>按钮</slot></button>
+            `,
+            props: ['type']
+        })
+        var VContent = {
+            template: `
+            <div>
+                我是内容区组件
+                <VBtn>登录</VBtn>
+                <VBtn>注册</VBtn>
+                <VBtn>提交</VBtn>
+                <VBtn type="primary">主要按钮</VBtn>
+                <VBtn type="success">成功按钮</VBtn>
+            </div>            
+            `
+        }
+        // 组件内的data一定是个函数
+        var VSider = {
+            data() {
+                return {
+
+                }
+            },
+            methods: {
+
+            },
+            template: `
+                <div>
+                    我是侧边栏组件
+                    <VBtn/>
+                </div>
+            `
+        }
+        var VHeader = {
+            template: `
+                <div>
+                    我是头部组件
+                </div>
+            `
+        }
+        var App = {
+            data() {
+                return {
+
+                }
+            },
+            components: {
+                VHeader,
+                VSider,
+                VContent
+            },
+            mounted(){
+                console.log(this.$refs.abc);
+            }
+            ,
+            template: `
+                <div>
+                    <VHeader/>
+                    <div>
+                        <VSider ref="abc" />
+                        <VContent/>
+                    </div>
+                </div>
+            `
+        }
+        new Vue({
+            el: '#app',
+            data() {
+                return {
+
+                }
+            },
+            components: {
+                App
+            },
+            template: `
+                <App/>
+            `
+        })
+        console.log(App);
+    </script>
+</body>
+
+</html>

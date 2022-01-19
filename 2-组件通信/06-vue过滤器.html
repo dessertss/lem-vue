@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>具名插槽</title>
+</head>
+<body>
+    <div id="app">
+
+    </div>
+    <script src="../node_modules/vue/dist/vue.min.js"></script>
+    <script>
+        //过滤器的作用：为页面中的数据进行添油加醋的功能
+        // 有两种：局部过滤器 全局过滤器
+        // 1、声明过滤器
+        // 2. {{数据 | 过滤器的名字}}
+
+        // 全局过滤器
+        Vue.filter('myFilter', function(value, arg){
+            return arg+'   '+value.split('').reverse().join('')
+        })
+        var App = ({
+            data(){
+                return{
+                    price:0,
+                    msg:'scytale'
+                }
+            }
+            ,
+            template:`
+                <div>
+                    <input type="number" v-model="price" />
+                    <h3>{{price | myCurrent}}</h3>
+                    <h4>{{msg | myFilter("hhhh")}}</h4>
+                </div>
+            `,
+            filters:{
+                myCurrent:function(value){
+                    return "￥"+value;
+                }
+            }
+        })
+        new Vue({
+            el:'#app',
+            data(){
+                return {
+
+                }
+            },
+            components:{
+                App
+            },
+            template:`
+                <App/>
+            `
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>静态进度条</title>
+    <style>
+        .progress-bar {
+            /* 进度条的槽 */
+            width: 47%;
+            /* 设置进度条的高度 */
+            height: 5px;
+            /*进度条外层div的背景色，进度未达到的地方的颜色 */
+            background-color: #f9e1e3;
+
+            border-radius: 3px;
+        }
+
+        .progress {
+            /* 进度部分 */
+            /* 利用继承父元素宽度的百分比控制进度 */
+            width: 60%;
+            height: 100%;
+            /* 内层背景色即进度达到的颜色 */
+            background-color: #e46a70;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="content">
+        <ol class="clearfix">
+            <li>
+                <h3>Java</h3>
+                <div class="progress-bar">
+                    <div class="progress">
+                    </div>
+                </div>
+            </li>
+            <li>
+                <h3>Python</h3>
+                <div class="progress-bar">
+                    <div class="progress">
+                    </div>
+                </div>
+            </li>
+            <li>
+                <h3>HTML</h3>
+                <div class="progress-bar">
+                    <div class="progress">
+                    </div>
+                </div>
+            </li>
+            <li>
+                <h3>CSS</h3>
+                <div class="progress-bar">
+                    <div class="progress">
+                    </div>
+                </div>
+            </li>
+        </ol>
+    </div>
+</body>
+
+</html>

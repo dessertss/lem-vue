@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue指令系统</title>
+    <style>
+        .box{
+            width: 300px;
+            height: 300px;
+            background-color: red;
+        }
+        .active{
+            background-color: green;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+
+    </div>
+    <script src="./node_modules/vue/dist/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: function () {
+                return {
+                    // 数据属性
+                    msg: 'hello world',
+                    info: '<h3>hello world</h3>',
+                    isShow: false,
+                    isFalse:false,
+                    // 遍历列表
+                    menulist:[
+                        {id:1, name:'张三', age:18},
+                        {id:2, name:'李四', age:20},
+                        {id:3, name:'王五', age:22}
+                    ],
+                    // 遍历对象
+                    persons:{
+                        name: 'scytale',
+                        age: 25,
+                        fav: 'film'
+                    }
+                }
+            },
+            //优先级 生命周期
+            // <div v-if="isShow">上班啦~</div>
+            // <div v-else="isShow">下班啦！</div>
+            template: ` 
+            <div class="app">
+                <h2>{{msg}}</h2>
+                <p v-text="msg"></p>
+                <div v-html="info"></div>
+                <div v-text="1+1"></div>
+                <div v-if="isShow">显示1</div>
+                <div v-if="!isShow">隐藏1</div>
+                <div v-if="Math.random() > 0.5">上班啦~</div>
+                <div v-else>下班啦！</div>
+                <div v-show="isShow">显示2</div>
+                <div v-show="!isShow">隐藏2</div>
+
+                <div class="box" v-on:click='clickHandler' :class="{active:isFalse}" ></div>
+
+                <ul>
+                    <li v-for = "item in menulist"> 
+                        <h5>{{item.id}}</h5>
+                        <h3>{{item.name}}</h3>
+                        <em>{{item.age}}</em>
+                    </li>
+                </ul>   
+                <ul>
+                    <li v-for = "(value, key) in persons">
+                        {{key}} === {{value}}
+                    </li>
+                </ul>
+            </div>  
+            
+            `,
+            methods:{
+                clickHandler(e){
+                    console.log(this);
+                    this.isFalse = !this.isFalse;
+                }
+            }
+
+        });
+        console.log(vm);
+        console.log(vm.$data);
+    </script>
+</body>
+
+</html>

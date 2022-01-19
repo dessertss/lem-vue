@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>命名路由</title>
+</head>
+<body>
+    <div id="app"></div>
+    <!-- 1. 引入vue的模块 -->
+    <script src="./vue.js"></script>
+    <!-- 2. 引入vue-router的模块 -->
+    <script src="./node_modules/vue-router/dist/vue-router.js"></script>
+    <script>
+        // 地址栏上 路由范式
+        // （1）xxxx.html#/user/1 params动态路由参数
+        // （2）oooo.html#/user?userId=1 query
+
+
+
+        // 3. 让Vue使用VueRouter创建
+        // Vue.use(VueRouter)
+
+        // 提醒一下，当使用路由参数时，例如从 /timeline/frontend 导航到 /timeline/backend，原来的组件实例会被复用。
+        // 因为两个路由都渲染同个组件，比起销毁再创建，复用则显得更加高效。不过，这也意味着组件的生命周期钩子不会再被调用。
+        var ComDesc = {
+            data(){
+                return{
+                    msg:''
+                }
+            },
+            template:`
+                <div>
+                    我是{{msg}}
+                </div>
+            `,
+            created(){
+                // 发ajax请求
+                // 只走一次 但是复用组件时，想对路由参数的变化作出响应，可以简单地watch（监测变化）$route对象：
+                console.log('创建组件');
+                this.msg = 'frontend'
+            },
+            mounted(){
+                console.log('挂载组件');
+            },
+            // 在当前组件内部 监听路由信息的变化
+            watch:{
+                '$route'(to, from){
+                    console.log(this.$route);
+                    console.log(to);
+                    console.log(from);
+
+                    // 发送ajax请求
+                    this.msg = to.params.id;
+                    console.log(to.params.id+"路由变化");
+                }
+            }
+        }
+        var Timeline = {
+            template:`
+                <div id="timeline">
+                    <router-link :to="{name:'comDesc', params:{id:'frontend'}}">前端</router-link>
+                    <router-link :to="{name:'comDesc', params:{id:'backend'}}">后端</router-link>
+                    <router-view></router-view>
+                </div>
+            `
+        }
+
+        var Pins = {
+            template:`
+                <div>
+                    我是沸点
+                </div>
+            `
+        }
+
+        // 4. 创建router对象
+        var router = new VueRouter({
+            mode:'history',
+            // 5. 配置路由对象
+            routes:[
+                {
+                    path:"/timeline",
+                    component:Timeline,
+                    children:[
+                        {
+                            name:'comDesc',
+                            // 
+                            path:'/timeline/:id',
+                            component:ComDesc
+                        }
+                    ]
+                }
+            ]
+        })
+        
+        // 引入vue-router模块 给咱们抛出来两个全局的组件router-link ==>a to==>href 
+        // router-view===>路由匹配组件的出口
+        var App = {
+            template:`
+                <div>
+                    <router-link to="/timeline">首页</router-link>
+                    <router-link to="/pins">沸点</router-link>
+                    <router-view></router-view>
+                </div>
+            `
+        }
+        new Vue({
+            el:"#app",
+            data(){
+                return {
+
+                }
+            },
+            components:{
+                App
+            },
+            // 6. 交给vue实例化对象管理
+            router,
+            template:`
+                <App />
+            `
+        })
+    </script>
+</body>
+</html>
