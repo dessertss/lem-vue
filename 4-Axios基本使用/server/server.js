@@ -28,11 +28,12 @@ router.post('/upload', async (ctx, next) => {
         ctx.body = 'post ok'
     })
 app.use(async (ctx, next) => {
-    console.log(ctx.request.header.origin);
+    console.log(ctx.request.header.origin + '跨域问题CORS');
     ctx.response.set('Access-Control-Allow-Origin', '*');
-    ctx.response.set('Access-Control-Allow-Methods', "PUT, POST, GET, DELETE, OPTIONS");
-    ctx.response.set('Access-Control-Allow-Origin', 'token');
-    // ctx.response.set('Access-Control-Allow-Credentials', true);
+    // ctx.response.set('Access-Control-Allow-Headers', '*');
+    ctx.response.set('Access-Control-Allow-Methods', "*");
+    ctx.response.set('Access-Control-Allow-Headers', 'token');
+    ctx.response.set('Access-Control-Allow-Credentials', true);
     await next();
 })
 app.use(router.routes());
@@ -40,4 +41,5 @@ app.use(router.allowedMethods());
 // 开启服务器
 app.listen(8888, () => {
     console.log('服务器启动在8888端口')
+    console.log('object');
 });

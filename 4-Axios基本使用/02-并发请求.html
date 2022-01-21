@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>axios并发请求</title>
+</head>
+
+<body>
+    <div id="app">
+
+    </div>
+    <script src="./vue.js"></script>
+
+    <script src="./node_modules/axios/dist/axios.js"></script>
+    <script>
+        console.log(axios);
+        var App = {
+            data() {
+                return {
+                    res1: '',
+                    res2: ''
+                }
+            },
+            template: `
+                <div>
+                    响应1{{res1}}
+                    响应2{{res2}}
+                    <button @click='sendAjax'>并发请求</button>
+                    <p>入口组件master</p>
+                </div>
+            `,
+            methods: {
+                sendAjax() {
+                    // 请求1 get:/
+                    // 请求2 post:/add
+
+                    // 配置默认请求路径前缀
+                    this.$axios.defaults.baseURL = 'http://localhost:8888';
+                    var r1 = this.$axios.get('');
+                    var r2 = this.$axios.post('add', 'a=1')
+                    // 处理并发请求的助手函数
+                    // axios.all(iterable)
+                    // axios.spread(callback)
+                    this.$axios.all([r1, r2])
+                        .then(this.$axios.spread((res1, res2) => {
+                            // 请求全部成功
+                            this.res1 = res1.data;
+                            this.res2 = res2.data;
+                        }))
+                        .catch(err => {
+                            // 其一失败
+                            console.log(err);
+                        })
+                }
+            }
+        }
+        Vue.prototype.$axios = axios;
+        new Vue({
+            el: '#app',
+            data() {
+                return {
+
+                }
+            },
+            components: {
+                App
+            },
+            template: `
+                <App />
+            `
+        })
+    </script>
+</body>
+
+</html>
