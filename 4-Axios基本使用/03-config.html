@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>axios并发请求</title>
+    <title>axios配置config</title>
 </head>
 
 <body>
@@ -25,7 +25,7 @@
             },
             template: `
                 <div>
-                    <button @click='sendAjax'>并发请求</button>
+                    <button @click='sendAjax'>配置config</button>
                 </div>
             `,
             methods: {
@@ -70,8 +70,8 @@
                     .then((res)=>{
                         console.log(res);
                     })
-                    .catch((res)=>{
-                        console.log(res);
+                    .catch((err)=>{
+                        console.log(err);
                     })
                 }
             }
